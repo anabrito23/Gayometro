@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Um quiz arco-íris" />
+    <title>Gayómetro 🏳️‍🌈</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="quiz-container">
+      <header class="rainbow-title">
+        <h1>🏳️‍🌈 Gayómetro</h1>
+      </header>
+
+      <section id="start-screen" class="screen">
+        <h2>Pronto para começar?</h2>
+        <label class="name-label" for="participant-name">O teu nome <span>(opcional)</span></label>
+        <input id="participant-name" maxlength="80" autocomplete="name" placeholder="Como queres aparecer no resultado?" />
+        <button id="start-button" class="primary-button">Começar ✨</button>
+      </section>
+
+      <section id="quiz-screen" class="screen hidden" aria-live="polite">
+        <div class="progress-container" aria-label="Progresso do quiz"><div id="progress-bar"></div></div>
+        <p id="question-number"></p>
+        <h2 id="question"></h2>
+        <div id="answers" class="answers"></div>
+        <button id="next-button" class="primary-button" disabled>Guardar 💾</button>
+      </section>
+
+      <section id="result-screen" class="screen hidden" aria-live="polite">
+        <h2>🏳️‍🌈 Resultado</h2>
+        <div class="result-circle"><span id="score">0%</span></div>
+        <h3 id="result-title"></h3>
+        <p id="result-text"></p>
+        <p id="save-status" class="save-status" role="status"></p>
+        <button id="restart-button" class="secondary-button">Fazer novamente 🔄</button>
+      </section>
+
+      <footer> ❤️🧡💛💚💙💜</footer>
+    </main>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

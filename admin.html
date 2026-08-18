@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel do Gayómetro</title><link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="quiz-container">
+      <header class="rainbow-title"><h1>🌈 Painel de respostas</h1><p>Acesso reservado à pessoa administradora.</p></header>
+      <section id="login-view" class="screen">
+        <h2>Entrar</h2><p>Usa o mesmo e-mail definido na política do Supabase.</p>
+        <label class="name-label" for="email">E-mail</label><input id="email" type="email" autocomplete="email" placeholder="teu@email.com" />
+        <button id="login-button" class="primary-button">Enviar link de acesso</button><p id="login-status" class="save-status" role="status"></p>
+      </section>
+      <section id="dashboard-view" class="screen hidden">
+        <button id="logout-button" class="secondary-button">Sair</button>
+        <p id="dashboard-status" class="save-status" role="status"></p>
+        <div id="response-list" class="answers"></div>
+        <article id="details" class="hidden"><h2 id="detail-name"></h2><p id="detail-summary"></p><div id="detail-answers" class="answers"></div></article>
+      </section>
+    </main>
+    <script type="module">
+      import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+      const SUPABASE_URL = "COLOCA_AQUI_A_TUA_SUPABASE_URL";
+      const SUPABASE_ANON_KEY = "COLOCA_AQUI_A_TUA_ANON_KEY";
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const $ = (id) => document.getElementById(id);
+      const configured = !SUPABASE_URL.startsWith("COLOCA_") && !SUPABASE_ANON_KEY.startsWith("COLOCA_");
+      function status(message, error = false) { $("dashboard-status").textContent = message; $("dashboard-status").className = error ? "save-status error" : "save-status"; }
+      async function loadResponses() {
+        status("A carregar respostas…");
+        const { data, error } = await supabase.from("quiz_responses").select("*").order("created_at", { ascending: false });
+        if (error) { status("Não foi possível carregar as respostas. Confirma o e-mail e as políticas RLS.", true); return; }
+        const list = $("response-list"); list.replaceChildren(); status(data.length ? `${data.length} resposta(s) recebida(s).` : "Ainda não existem respostas.");
+        data.forEach((response) => { const button = document.createElement("button"); button.className = "answer-button"; button.textContent = `${response.participant_name || "Anónimo"} — ${response.total_points}/30 (${response.percentage}%) — ${new Date(response.created_at).toLocaleString("pt-PT")}`; button.addEventListener("click", () => showDetails(response)); list.append(button); });
+      }
+      function showDetails(response) {
+        $("details").classList.remove("hidden"); $("detail-name").textContent = response.participant_name || "Resposta anónima"; $("detail-summary").textContent = `Pontuação: ${response.total_points}/30 (${response.percentage}%)`;
+        const entries = (response.answers || []).map((answer) => { const item = document.createElement("div"); item.className = "answer-button"; item.style.cursor = "default"; item.textContent = `${answer.question_number}. ${answer.question} — “${answer.selected_answer}” (${answer.points} ponto${answer.points === 1 ? "" : "s"})`; return item; }); $("detail-answers").replaceChildren(...entries); $("details").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      async function refresh() { const { data: { session } } = await supabase.auth.getSession(); if (session) { $("login-view").classList.add("hidden"); $("dashboard-view").classList.remove("hidden"); loadResponses(); } }
+      $("login-button").addEventListener("click", async () => { const email = $("email").value.trim(); const loginStatus = $("login-status"); if (!configured) { loginStatus.textContent = "Primeiro configura a URL e a anon key neste ficheiro."; loginStatus.className = "save-status error"; return; } const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.href } }); loginStatus.textContent = error ? "Não foi possível enviar o link. Confirma a configuração de autenticação." : "Link enviado. Abre o e-mail e volta a esta página."; loginStatus.className = error ? "save-status error" : "save-status"; });
+      $("logout-button").addEventListener("click", async () => { await supabase.auth.signOut(); $("dashboard-view").classList.add("hidden"); $("login-view").classList.remove("hidden"); });
+      if (configured) refresh();
+    </script>
+  </body>
+</html>
