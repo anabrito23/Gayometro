@@ -10,34 +10,28 @@ const questions = [
   {
     question: "Quando ouves uma música pop com um refrão poderoso, o que fazes?",
     answers: [
-      { text: "Faço uma performance completa.", points: 3 }
       { text: "Continuo normalmente.", points: 0 },
-      { text: "Canto alto com voz mais aguda.", points: 2 },
       { text: "Canto baixinho.", points: 1 },
-     
-      
+      { text: "Canto alto com voz mais aguda.", points: 2 },
+      { text: "Faço uma performance completa.", points: 3 }
     ]
   },
   {
     question: "Qual destas atividades parece mais divertida?",
     answers: [
       { text: "Ver futebol.", points: 0 },
-      { text: "Festa com música pop e muito glitter.", points: 3 }
       { text: "Ir ao cinema.", points: 1 },
       { text: "Ir ter com a namorada.", points: 1 },
-      
+      { text: "Festa com música pop e muito glitter.", points: 3 }
     ]
   },
   {
     question: "Encontras glitter na tua roupa. Qual é a tua reação?",
     answers: [
-    
-      { text: "Não me importo.", points: 1 },
-      { text: "Onde arranjo mais?", points: 3 }
       { text: "Tento tirar imediatamente.", points: 0 },
+      { text: "Não me importo.", points: 1 },
       { text: "Até ficou bonito.", points: 2 },
-      
-    
+      { text: "Onde arranjo mais?", points: 3 }
     ]
   },
   {
@@ -53,30 +47,27 @@ const questions = [
     question: "Escolhe um acessório:",
     answers: [
       { text: "Nada.", points: 0 },
-      { text: "Pulseira.", points: 3 }
       { text: "Relógio.", points: 1 },
-      { text: "Óculos estilosos.", points: 1 },
-     
+      { text: "Óculos estilosos.", points: 2 },
+      { text: "Pulseira.", points: 3 }
     ]
   },
   {
     question: "Qual destas frases combina mais contigo?",
     answers: [
       { text: "Gosto de coisas simples.", points: 0 },
-      { text: "Gosto de falar anasalado com a perna cruzada.", points: 3 }
       { text: "Gosto de me vestir bem.", points: 1 },
       { text: "A estética é importante.", points: 2 },
-    
+      { text: "Gosto de falar anasalado com a perna cruzada.", points: 3 }
     ]
   },
   {
     question: "O teu amigo diz: 'Vamos tirar fotos'. Tu:",
     answers: [
-      { text: "Tenho 47 poses preparadas.", points: 3 }
       { text: "Prefiro não aparecer.", points: 0 },
       { text: "Faço uma foto normal.", points: 1 },
       { text: "Faço várias poses.", points: 2 },
-     
+      { text: "Tenho 47 poses preparadas.", points: 3 }
     ]
   },
   {
@@ -100,16 +91,13 @@ const questions = [
   {
     question: "Última pergunta: No sexo eu:",
     answers: [
-
-      { text: "Gosto de acessórios! ✨", points: 2 }
       { text: "Sou ativo.", points: 1 },
       { text: "Sou passivo.", points: 2 },
       { text: "Gosto de um fio terra", points: 3 },
-      
+      { text: "Gosto de acessórios! ✨", points: 2 }
     ]
   }
 ];
-
 const $ = (id) => document.getElementById(id);
 const screens = {
   start: $("start-screen"),
